@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request
 import requests
+import os
+
 
 # Flaskアプリケーションを初期化
 app = Flask(__name__)
 
 # GNews APIの基本設定
-API_KEY = "77c285acb4c60ca374f0b1f9a8ca9c92"
+API_KEY = os.getenv("API_KEY")
 URL = "https://gnews.io/api/v4/search"
 
 
