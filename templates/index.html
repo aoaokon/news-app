@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最新ニュース</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; margin: 2em; background-color: #f4f4f4; }
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 1em 2em; border-radius: 8px; }
+        .articles-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .article {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            min-width: 0;
+            padding: 1em;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .article img {
+            max-width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 0.7em;
+        }
+        h2 { margin: 0 0 0.5em 0; font-size: 1.2em; }
+        a { text-decoration: none; color: #007BFF; }
+        a:hover { text-decoration: underline; }
+        p { margin: 0.5em 0 0 0; color: #555; }
+        .source { font-size: 0.9em; color: #888; }
+        @media (max-width: 900px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h1 style="margin: 0;">ピックアップ10ニュース 📰</h1>
+            {% if remaining is not none %}
+                <span style="color:rgb(255, 0, 0); font-size:1em;">
+                    本日のAPI残り回数: <strong>{{ remaining }}</strong>
+                </span>
+            {% endif %}
+        </div>
+        <form method="get" action="/" style="margin-bottom: 2em; display: flex; gap: 1em; align-items: center;">
+            <input type="text" name="q" value="{{ keyword }}" placeholder="キーワードを入力" style="padding:0.5em; width:50%;">
+            <select name="lang" style="padding:0.5em;">
+                <option value="ja" {% if lang == 'ja' %}selected{% endif %}>日本語</option>
+                <option value="en" {% if lang == 'en' %}selected{% endif %}>英語</option>
+                <option value="zh" {% if lang == 'zh' %}selected{% endif %}>中国語</option>
+            </select>
+            <button type="submit" style="padding:0.5em 1em;">検索</button>
+        </form>
+        <div class="articles-grid">
+        {% for article in articles %}
+            <div class="article">
+                {% if article.image %}
+                  <img src="{{ article.image }}" alt="記事画像">
+                {% endif %}
+                <h2>
+                  <a href="{{ article.url | default('#') }}" target="_blank">
+                    {{ article.title | default('タイトルなし') }}
+                  </a>
+                </h2>
+                <p class="source">
+                  提供元: {{ article.source.name | default('不明') }}
+                </p>
+                <p>
+                  {{ article.description | default('説明なし') }}
+                </p>
+            </div>
+        {% else %}
+            <p>ニュース記事を取得できませんでした。</p>
+        {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
