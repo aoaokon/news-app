@@ -42,5 +42,5 @@ def index():
 
     return render_template('index.html', articles=articles, keyword=keyword, remaining=remaining, lang=lang)
 
-if __name__ == '__main__':
-    app.run(debug=True) # デバッグモードでアプリを実行
+#if __name__ == '__main__':
+#    app.run(debug=True) # デバッグモードでアプリを実行
