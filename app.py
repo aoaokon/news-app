@@ -5,7 +5,7 @@ import requests
 app = Flask(__name__)
 
 # GNews APIの基本設定
-API_KEY = "YOUR_API_KEY_HERE"
+API_KEY = "77c285acb4c60ca374f0b1f9a8ca9c92"
 URL = "https://gnews.io/api/v4/search"
 
 
